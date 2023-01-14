@@ -1,0 +1,129 @@
+.game {
+  margin: 10px auto;
+}
+
+.game button {
+  background: none;
+  border: 2px solid #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1em;
+  cursor: pointer;
+  color: var(--primary-color);
+  background: var(--third-color);
+  border: 2px solid var(--third-color);
+}
+
+.game button:hover {
+    cursor: pointer;
+    color: var(--third-color);
+    background: white;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
+  margin-top: 10px;
+}
+
+.card .front {
+  position: absolute;
+  transform: rotateY(90deg);
+  transition: all ease-in 0.2s;
+}
+
+.flipped .front {
+  transform: rotateY(0deg);
+  transition-delay: 0.2s;
+}
+
+.card .back {
+  transform: rotateY(0deg);
+  transition: all ease-in 0.2s;
+  transition-delay: 0.2s;
+}
+
+.flipped .back {
+  transform: rotateY(90deg);
+  transition-delay: 0s;
+}
+
+.game .player {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.game-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 160px;
+}
+
+.player-info-block {
+  position: relative;
+  width: 33%;
+  height: 100%;
+  border-radius: 10px;
+  background: aliceblue;
+}
+
+.player-info-block-left {
+    padding: 5px 0 ;
+    color: #8787ee;
+    border: 5px solid #8787ee;
+
+}
+
+.player-info-block-right {
+    padding: 5px 0;
+    color: #cb7264;
+    border: 5px solid #cb7264;
+}
+
+.game .actions {
+  background: #feebc8;
+  padding: 5px;
+  border-left: 5px solid #dd6a1f;
+  width: 100%;
+  height: 60px;
+  margin: 10px 0;
+  color: #6d7380
+}
+
+.score-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.score {
+  font-size: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.score-player1 {
+  color: #8787ee;
+}
+
+.score-player2 {
+  color: #cb7264;
+}
+
+.turn {
+  position: absolute;
+  bottom: 0px;
+}
+
+.peepo {
+  width: 20px;
+}
