@@ -20,7 +20,7 @@ const GameState = {
     END: 2,
 }
 
-const MAX_SCORE = 1
+const MAX_SCORE = 12
 
 const variantsPlayer = {
     active: { opacity: 1, scale: 1 },

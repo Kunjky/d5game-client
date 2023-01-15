@@ -8,14 +8,14 @@ function Modal({ myUser, isWin, closeModal }) {
         <>
             <div className="modal-header">
                 <FontAwesomeIcon icon={faCheckCircle} />
-                <h3>THẮNG RÔI!</h3>
+                <h3>THẮNG RỒI!</h3>
                 <div className="online-avatar" dangerouslySetInnerHTML={{ __html: myUser.avatar }}
                     style={{ margin: 'auto' }}>
                 </div>
                 <div>{myUser.username}</div>
             </div>
             <div className="modal-body">
-                <button className="modal-button">UHm!</button>
+                <button className="modal-button">Thường Thôi!</button>
             </div>
         </>
     )
@@ -32,7 +32,7 @@ function Modal({ myUser, isWin, closeModal }) {
                     <div>{myUser.username}</div>
                 </div>
                 <div className="modal-body">
-                    <button className="modal-button modal-lose">UHm!</button>
+                    <button className="modal-button modal-lose">Không sao làm lại!</button>
                 </div>
             </>
         )
