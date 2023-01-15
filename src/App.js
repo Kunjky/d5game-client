@@ -30,7 +30,7 @@ function App() {
         })
 
         socket.on('room:join-room-success', (room) => {
-            setCurrentRoom(room)
+            // setCurrentRoom(room)
         })
 
         return () => {
@@ -40,7 +40,16 @@ function App() {
             socket.off('room:join-room-success');
         }
 
-    }, [])
+    })
+
+    useEffect(() => {
+        const currentRoom = roomList.filter((room) => {
+            return room.players[0] == socket.id || room.players[1] == socket.id
+        })[0]
+
+        setCurrentRoom(currentRoom)
+
+    }, [roomList])
 
     const handleLogin = (socketId) => {
         let user = generateUserInfo(socketId)
