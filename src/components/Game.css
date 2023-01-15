@@ -45,6 +45,7 @@
   transform: rotateY(0deg);
   transition: all ease-in 0.2s;
   transition-delay: 0.2s;
+  cursor: pointer;
 }
 
 .flipped .back {
@@ -126,4 +127,11 @@
 
 .peepo {
   width: 20px;
+}
+
+.you {
+  position: absolute;
+  color: black;
+  font-size: 0.8rem;
+  font-weight: 700;
 }

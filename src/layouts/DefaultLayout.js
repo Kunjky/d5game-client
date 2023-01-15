@@ -2,7 +2,7 @@ import './DefaultLayout.css'
 import Sidebar from '../components/Sidebar'
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUpRightFromSquare, faDice } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpRightFromSquare, faDice, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
 
 function DefaultLayout({ myUser, userList, children, currentRoom }) {
@@ -20,7 +20,7 @@ function DefaultLayout({ myUser, userList, children, currentRoom }) {
                     {
                         currentRoom &&
                         <>
-                            Phòng {currentRoom.name}<a href="/"> <FontAwesomeIcon icon={faArrowUpRightFromSquare} /></a>
+                            Phòng {currentRoom.name}<a href="/"> | Exit <FontAwesomeIcon icon={faArrowUpRightFromSquare} /></a>
                         </>
                     }
                 </div>

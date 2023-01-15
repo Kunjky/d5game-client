@@ -4,6 +4,7 @@ import './Game.css'
 import Player from './Player'
 import SingleCard from './SingleCard'
 import { motion } from 'framer-motion'
+import Modal from './Modal'
 
 const GameState = {
     READY: 0,
@@ -11,26 +12,28 @@ const GameState = {
     END: 2,
 }
 
-const MAX_SCORE = 2
+const MAX_SCORE = 24
 
 const variantsPlayer = {
     active: { opacity: 1, scale: 1 },
     inactive: { opacity: 0.5, scale: 0.8 },
 }
 
-function Game({ myUser, leaveGame, socket, currentRoom }) {
+function Game({ myUser, socket, currentRoom }) {
     const [cards, setCards] = useState([])
     const [turns, setTurns] = useState(0)
     const [choiceOne, setChoiceOne] = useState(null)
     const [choiceTwo, setChoiceTwo] = useState(null)
     const [isHost, setIsHost] = useState(false)
-    const [currentPlayer, setCurrentPlayer] = useState(false)
+    const [currentPlayer, setCurrentPlayer] = useState(null)
     const [gameState, setGameState] = useState(GameState.READY)
     const [player1Score, setPlayer1Score] = useState(0)
     const [player2Score, setPlayer2Score] = useState(0)
+    const [showModal, setShowModal] = useState(false)
+    const [isWin, setIsWin] = useState(false)
 
-    const player1 = currentRoom.players[0] ? generateUserInfo(currentRoom.players[0]) : null
-    const player2 = currentRoom.players[1] ? generateUserInfo(currentRoom.players[1]) : null
+    let player1 = currentRoom.players[0] ? generateUserInfo(currentRoom.players[0]) : null
+    let player2 = currentRoom.players[1] ? generateUserInfo(currentRoom.players[1]) : null
 
     useEffect(() => {
         if (choiceOne && choiceTwo) {
@@ -60,8 +63,6 @@ function Game({ myUser, leaveGame, socket, currentRoom }) {
     }, [player1Score, player2Score])
 
     useEffect(() => {
-        setIsHost(player1 && player1.id == myUser.id)
-
         socket.on('setChoiceOne', (data) => {
             setChoiceOne(data)
         })
@@ -78,10 +79,6 @@ function Game({ myUser, leaveGame, socket, currentRoom }) {
             setCards(data);
         })
 
-        socket.on('setCurrentPlayer', (data) => {
-            setCards(data);
-        })
-
         socket.on('passTurn', (data) => {
             setCurrentPlayer(data);
         })
@@ -90,6 +87,8 @@ function Game({ myUser, leaveGame, socket, currentRoom }) {
             setCards(data);
             setPlayer1Score(0)
             setPlayer2Score(0)
+            setChoiceOne(null)
+            setChoiceTwo(null)
             setCurrentPlayer(player1.id);
             setTurns(0)
             setGameState(GameState.START)
@@ -109,7 +108,7 @@ function Game({ myUser, leaveGame, socket, currentRoom }) {
         return () => {
             socket.removeAllListeners();
         }
-    }, [])
+    }, [currentRoom])
 
     const sendEvent = (eventname, data = null) => {
         socket.emit(eventname, data, currentRoom.id)
@@ -120,8 +119,8 @@ function Game({ myUser, leaveGame, socket, currentRoom }) {
     }
 
     const handleChoice = (card) => {
-        if (choiceOne && choiceTwo || myUser.id != currentPlayer) return
-        choiceOne && choiceOne != card ? sendEvent('setChoiceTwo', card) : sendEvent('setChoiceOne', card)
+        if (choiceOne && choiceTwo || choiceOne && choiceOne.id === card.id  || myUser.id !== currentPlayer || gameState !== GameState.START) return
+        choiceOne ? sendEvent('setChoiceTwo', card) : sendEvent('setChoiceOne', card)
     }
 
     const resetTurn = () => {
@@ -141,24 +140,29 @@ function Game({ myUser, leaveGame, socket, currentRoom }) {
     const checkWinner = () => {
         if (gameState === GameState.START && player1Score + player2Score === MAX_SCORE) {
             const winner = player1Score > player2Score ? player1 : player2
-            if (winner?.id === myUser.id) {
-                setTimeout(() => alert('You are winner!'), 1000)
-            } else {
-                setTimeout(() => alert('Thất bại thì làm lại !'), 1000)
-            }
+            setIsWin(winner.id === myUser.id)
             setGameState(GameState.END)
+            setTimeout(() => setShowModal(true), 1000)
         }
+    }
+
+    const closeModal = () => {
+        setShowModal(false)
+        sendEvent('resetGame')
     }
 
     return (
         <div className="game">
+            {   showModal && gameState === GameState.END &&
+                <Modal closeModal={closeModal} myUser={myUser} isWin={isWin} />
+            }
             <div className='game-info'>
                 <div className='player'>
                     <motion.div className={`player-info-block`}
                         variants={variantsPlayer}
                         animate={ gameState !== GameState.START || currentPlayer === player1?.id ? 'active' : 'inactive'}
                         >
-                        {player1 && <Player player={player1} position='left' />}
+                        {player1 && <Player player={player1} position='left' myUser={myUser} />}
                     </motion.div>
                     <div className='player-info-block score-info'>
                         <span className={`score score-player1`}>{player1Score}</span>
@@ -172,16 +176,15 @@ function Game({ myUser, leaveGame, socket, currentRoom }) {
                         variants={variantsPlayer}
                         animate={ gameState !== GameState.START || currentPlayer === player2?.id ? 'active' : 'inactive'}
                         >
-                        {player2 && <Player player={player2} position='right'/>}
+                        {player2 && <Player player={player2} position='right' myUser={myUser} />}
                     </motion.div>
                 </div>
                 <div className="actions">
-                    { ((gameState === GameState.READY || gameState === GameState.END) && currentRoom.players.length == 2) && <button onClick={shuffleCards}>Chơi!</button> }
+                    { ((gameState === GameState.READY) && currentRoom.players.length == 2) && <button onClick={shuffleCards}>Chơi!</button> }
                     { (gameState === GameState.START && currentPlayer == myUser.id) && <p>Lượt của bạn</p> }
                     { (gameState === GameState.START && currentPlayer != myUser.id) && <p>Lượt của đối phương</p>}
                     { (currentRoom.players.length == 1 && <p>Chờ người chơi khác... <img src="/img/peepo-run.gif" className='peepo'></img> </p>) }
                 </div>
-                    {/* <button onClick={leaveGame}>Leave Game</button> */}
             </div>
             <div className="card-grid">
                 {cards && cards.map(card =>

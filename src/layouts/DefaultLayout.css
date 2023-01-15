@@ -90,3 +90,10 @@ body {
     gap: 5px;
     justify-content: space-evenly;
 }
+
+.bottom {
+    position: fixed;
+    bottom: 0;
+    right: 2px;
+    font-size: 0.9rem;
+}
