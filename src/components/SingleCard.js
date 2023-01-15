@@ -12,7 +12,10 @@ function SingleCard(prop) {
 
     return (
         <motion.div className="card"
-            whileHover={{y: '-3px', borderWidth: '4px' }}>
+            whileHover={ !flipped ? {y: '-3px', scale: 1.2} : {y: '0', scale: 1} }
+            initial={{y: '100vh' }}
+            animate={{y: 0}}
+            >
             <div className={ flipped ? 'flipped' : ''}>
                 <img className="front" src={card.src} alt="card front"  />
                 <div className="back" onClick={handleClick}>

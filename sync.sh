@@ -1,3 +1,4 @@
 #!/bin/bash
 # sync new build to server folder
-cp -R build/ ../d5game-server/build
+cp -R build/ ../d5game-server/
+echo "synced"

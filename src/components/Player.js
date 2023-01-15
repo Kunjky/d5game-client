@@ -9,7 +9,8 @@ function Player({ player, position, myUser }) {
             initial={{ scale: 0, opacity: 0.5 }}
             transition={{ delay: 0.7 }}
         >
-            <img className="online-avatar" src={player.avatar} alt={player.username} />
+            <div className="online-avatar" dangerouslySetInnerHTML={ { __html: player.avatar }} >
+            </div>
             <div>
                 {player.username}
                 { myUser.id === player.id && <span className="you"> (tôi)<FontAwesomeIcon icon={faStar} /></span>}

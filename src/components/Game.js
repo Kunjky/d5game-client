@@ -5,6 +5,14 @@ import Player from './Player'
 import SingleCard from './SingleCard'
 import { motion } from 'framer-motion'
 import Modal from './Modal'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+
+const soundEffect = {
+    correct: new Audio('/sound/correct.mp3'),
+    incorrect: new Audio('/sound/incorrect.mp3'),
+    win: new Audio('/sound/hakkushu.mp3'),
+}
 
 const GameState = {
     READY: 0,
@@ -12,7 +20,7 @@ const GameState = {
     END: 2,
 }
 
-const MAX_SCORE = 12
+const MAX_SCORE = 1
 
 const variantsPlayer = {
     active: { opacity: 1, scale: 1 },
@@ -24,7 +32,6 @@ function Game({ myUser, socket, currentRoom }) {
     const [turns, setTurns] = useState(0)
     const [choiceOne, setChoiceOne] = useState(null)
     const [choiceTwo, setChoiceTwo] = useState(null)
-    const [isHost, setIsHost] = useState(false)
     const [currentPlayer, setCurrentPlayer] = useState(null)
     const [gameState, setGameState] = useState(GameState.READY)
     const [player1Score, setPlayer1Score] = useState(0)
@@ -49,10 +56,12 @@ function Game({ myUser, socket, currentRoom }) {
                 })
                 resetTurn()
                 addScore()
+                soundEffect.correct.play()
             } else {
                 setTimeout(() => resetTurn(), 1000)
                 const nextPlayer = currentPlayer == player1.id ? player2.id : player1.id
                 sendEvent('passTurn', nextPlayer)
+                soundEffect.incorrect.play()
             }
         }
 
@@ -140,7 +149,11 @@ function Game({ myUser, socket, currentRoom }) {
     const checkWinner = () => {
         if (gameState === GameState.START && player1Score + player2Score === MAX_SCORE) {
             const winner = player1Score > player2Score ? player1 : player2
-            setIsWin(winner.id === myUser.id)
+            const isWon = winner.id === myUser.id
+            if (isWon) {
+                setIsWin(isWon)
+                soundEffect.win.play()
+            }
             setGameState(GameState.END)
             setTimeout(() => setShowModal(true), 1000)
         }
@@ -180,9 +193,9 @@ function Game({ myUser, socket, currentRoom }) {
                     </motion.div>
                 </div>
                 <div className="actions">
-                    { ((gameState === GameState.READY) && currentRoom.players.length == 2) && <button onClick={shuffleCards}>Chơi!</button> }
-                    { (gameState === GameState.START && currentPlayer == myUser.id) && <p>Lượt của bạn</p> }
-                    { (gameState === GameState.START && currentPlayer != myUser.id) && <p>Lượt của đối phương</p>}
+                    { ((gameState === GameState.READY) && currentRoom.players.length == 2) && <button onClick={shuffleCards}><FontAwesomeIcon icon={faPlayCircle}/> Play</button> }
+                    { (gameState === GameState.START && currentPlayer == myUser.id) && <p>Lượt của bạn, hãy lật bài</p> }
+                    { (gameState === GameState.START && currentPlayer != myUser.id) && <p>Lượt của đối phương...</p>}
                     { (currentRoom.players.length == 1 && <p>Chờ người chơi khác... <img src="/img/peepo-run.gif" className='peepo'></img> </p>) }
                 </div>
             </div>

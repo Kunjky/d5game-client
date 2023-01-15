@@ -41,3 +41,8 @@
     min-height: 85px;
     justify-content: space-evenly;
 }
+
+.room-info {
+    font-weight: 700;
+    color: #2c6c6b;
+}

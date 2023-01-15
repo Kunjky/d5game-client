@@ -34,10 +34,7 @@ function App() {
         })
 
         return () => {
-            socket.off('user:created');
-            socket.off('user:join-channel');
-            socket.off('room:updated');
-            socket.off('room:join-room-success');
+            socket.removeAllListeners();
         }
 
     })

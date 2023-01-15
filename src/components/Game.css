@@ -3,6 +3,7 @@
 }
 
 .game button {
+  font-family: 'Prompt';
   background: none;
   border: 2px solid #fff;
   padding: 6px 12px;
@@ -23,11 +24,15 @@
     background: white;
 }
 
+.card {
+  margin: auto;
+}
+
 .card-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 20px;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .card .front {
@@ -82,13 +87,18 @@
     padding: 5px 0 ;
     color: #8787ee;
     border: 5px solid #8787ee;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .player-info-block-right {
     padding: 5px 0;
     color: #cb7264;
     border: 5px solid #cb7264;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .game .actions {
@@ -109,7 +119,8 @@
 
 .score {
   font-size: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Prompt';
+  font-weight: 600;
 }
 
 .score-player1 {

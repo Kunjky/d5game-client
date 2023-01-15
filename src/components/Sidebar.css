@@ -29,7 +29,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 10px 20px;
+    padding: 0 20px;
 }
 
 .online-avatar {
@@ -39,4 +39,8 @@
 
 .username {
     font-weight: bold;
+}
+
+svg {
+    border-radius: 10px;
 }

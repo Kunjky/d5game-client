@@ -8,8 +8,10 @@ function Modal({ myUser, isWin, closeModal }) {
         <>
             <div className="modal-header">
                 <FontAwesomeIcon icon={faCheckCircle} />
-                <h3>WINNER</h3>
-                <img className="online-avatar" src={myUser.avatar} alt={myUser.username} />
+                <h3>THẮNG RÔI!</h3>
+                <div className="online-avatar" dangerouslySetInnerHTML={{ __html: myUser.avatar }}
+                    style={{ margin: 'auto' }}>
+                </div>
                 <div>{myUser.username}</div>
             </div>
             <div className="modal-body">
@@ -23,8 +25,10 @@ function Modal({ myUser, isWin, closeModal }) {
             <>
                 <div className="modal-header modal-lose">
                     <FontAwesomeIcon icon={faFaceDizzy} />
-                    <h3>LOSE</h3>
-                    <img className="online-avatar" src={myUser.avatar} alt={myUser.username} />
+                    <h3>THUA GÒI</h3>
+                    <div className="online-avatar" dangerouslySetInnerHTML={{ __html: myUser.avatar }}
+                        style={{ margin: 'auto' }}>
+                    </div>
                     <div>{myUser.username}</div>
                 </div>
                 <div className="modal-body">
@@ -37,8 +41,8 @@ function Modal({ myUser, isWin, closeModal }) {
     return (
         <div onClickCapture={closeModal} className="overlay">
             <motion.div className="modal"
-                animate={{scale: 1}}
-                initial={{scale: 0}}>
+                animate={{ scale: 1 }}
+                initial={{ scale: 0 }}>
                 {content}
             </motion.div>
         </div>
