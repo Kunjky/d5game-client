@@ -45,3 +45,7 @@
 .modal .modal-lose {
     background: #4f4f4f;
 }
+
+.modal .modal-draw {
+    background: #9e4a4a;
+}

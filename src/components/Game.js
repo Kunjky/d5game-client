@@ -20,6 +20,10 @@ const GameState = {
     END: 2,
 }
 
+const IS_WIN = 1
+const IS_LOSE = 2
+const IS_DRAW = 0
+
 const MAX_SCORE = 12
 
 const variantsPlayer = {
@@ -37,7 +41,7 @@ function Game({ myUser, socket, currentRoom }) {
     const [player1Score, setPlayer1Score] = useState(0)
     const [player2Score, setPlayer2Score] = useState(0)
     const [showModal, setShowModal] = useState(false)
-    const [isWin, setIsWin] = useState(false)
+    const [isWin, setIsWin] = useState(IS_DRAW)
 
     let player1 = currentRoom.players[0] ? generateUserInfo(currentRoom.players[0]) : null
     let player2 = currentRoom.players[1] ? generateUserInfo(currentRoom.players[1]) : null
@@ -148,12 +152,25 @@ function Game({ myUser, socket, currentRoom }) {
 
     const checkWinner = () => {
         if (gameState === GameState.START && player1Score + player2Score === MAX_SCORE) {
-            const winner = player1Score > player2Score ? player1 : player2
-            const isWon = winner.id === myUser.id
-            if (isWon) {
-                setIsWin(isWon)
-                soundEffect.win.play()
+            let winner = null
+            let isWin = IS_DRAW
+
+            if (player1Score > player2Score) {
+                winner = player1
+            } else if (player2Score > player1Score) {
+                winner = player2
             }
+
+            if (winner !== null) {
+                if (winner.id === myUser.id) {
+                    isWin = IS_WIN
+                    soundEffect.win.play()
+                } else {
+                    isWin = IS_LOSE
+                }
+            }
+
+            setIsWin(isWin)
             setGameState(GameState.END)
             setTimeout(() => setShowModal(true), 1000)
         }

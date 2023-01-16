@@ -1,7 +1,11 @@
-import { faCheckCircle, faFaceDizzy } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faFaceDizzy, faFaceRollingEyes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion"
 import './Modal.css'
+
+const IS_WIN = 1
+const IS_LOSE = 2
+const IS_DRAW = 0
 
 function Modal({ myUser, isWin, closeModal }) {
     let content = (
@@ -20,7 +24,7 @@ function Modal({ myUser, isWin, closeModal }) {
         </>
     )
 
-    if (!isWin) {
+    if (isWin === IS_LOSE) {
         content = (
             <>
                 <div className="modal-header modal-lose">
@@ -33,6 +37,24 @@ function Modal({ myUser, isWin, closeModal }) {
                 </div>
                 <div className="modal-body">
                     <button className="modal-button modal-lose">Không sao làm lại!</button>
+                </div>
+            </>
+        )
+    }
+
+    if (isWin === IS_DRAW) {
+        content = (
+            <>
+                <div className="modal-header modal-draw">
+                    <FontAwesomeIcon icon={faFaceRollingEyes} />
+                    <h3>BẤT PHÂN THẮNG BẠI</h3>
+                    <div className="online-avatar" dangerouslySetInnerHTML={{ __html: myUser.avatar }}
+                        style={{ margin: 'auto' }}>
+                    </div>
+                    <div>{myUser.username}</div>
+                </div>
+                <div className="modal-body">
+                    <button className="modal-button modal-draw">Không sao làm lại!</button>
                 </div>
             </>
         )
