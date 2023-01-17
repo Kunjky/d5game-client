@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.7dba5e35.css",
-    "main.js": "/static/js/main.030a53a3.js",
+    "main.css": "/static/css/main.00813dda.css",
+    "main.js": "/static/js/main.1e7c4ffb.js",
+    "static/media/bg-tet.jpg": "/static/media/bg-tet.172384f73db459d39f3d.jpg",
     "index.html": "/index.html",
-    "main.7dba5e35.css.map": "/static/css/main.7dba5e35.css.map",
-    "main.030a53a3.js.map": "/static/js/main.030a53a3.js.map"
+    "main.00813dda.css.map": "/static/css/main.00813dda.css.map",
+    "main.1e7c4ffb.js.map": "/static/js/main.1e7c4ffb.js.map"
   },
   "entrypoints": [
-    "static/css/main.7dba5e35.css",
-    "static/js/main.030a53a3.js"
+    "static/css/main.00813dda.css",
+    "static/js/main.1e7c4ffb.js"
   ]
 }

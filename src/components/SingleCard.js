@@ -18,7 +18,7 @@ function SingleCard(prop) {
             >
             <div className={ flipped ? 'flipped' : ''}>
                 <img className="front" src={card.src} alt="card front"  />
-                <img className="back" src="/img/cover-tet.png" alt="card back"  />
+                <img className="back" onClick={handleClick} src="/img/cover-tet.png" alt="card back"  />
                 {/* <div className="back" onClick={handleClick}>
                     <FontAwesomeIcon icon={faYen} ></FontAwesomeIcon>
                 </div> */}
