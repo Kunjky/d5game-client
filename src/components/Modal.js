@@ -19,7 +19,7 @@ function Modal({ myUser, isWin, closeModal }) {
                 <div>{myUser.username}</div>
             </div>
             <div className="modal-body">
-                <button className="modal-button">Thường Thôi!</button>
+                <button onClick={closeModal} className="modal-button">Thường Thôi!</button>
             </div>
         </>
     )
@@ -36,7 +36,7 @@ function Modal({ myUser, isWin, closeModal }) {
                     <div>{myUser.username}</div>
                 </div>
                 <div className="modal-body">
-                    <button className="modal-button modal-lose">Không sao làm lại!</button>
+                    <button onClick={closeModal} className="modal-button modal-lose">Không sao làm lại!</button>
                 </div>
             </>
         )
@@ -54,14 +54,14 @@ function Modal({ myUser, isWin, closeModal }) {
                     <div>{myUser.username}</div>
                 </div>
                 <div className="modal-body">
-                    <button className="modal-button modal-draw">Không sao làm lại!</button>
+                    <button onClick={closeModal} className="modal-button modal-draw">Không sao làm lại!</button>
                 </div>
             </>
         )
     }
 
     return (
-        <div onClickCapture={closeModal} className="overlay">
+        <div className="overlay">
             <motion.div className="modal"
                 animate={{ scale: 1 }}
                 initial={{ scale: 0 }}>
